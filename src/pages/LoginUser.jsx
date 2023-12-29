@@ -1,7 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 import { TfiEmail } from "react-icons/tfi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useLoginMutation } from "../app/slices/userApiSlice";
+import { toast } from "react-toastify";
+import { setCredentials } from "../app/slices/userSlice";
+import { BeatLoader } from "react-spinners";
 
 const LoginUser = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -10,18 +15,37 @@ const LoginUser = () => {
     password: "",
   });
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { userInfo } = useSelector((state) => state.user);
+  const [loginUser, { isLoading }] = useLoginMutation();
+
   const handleshowPassword = () => {
     setShowPassword(!showPassword);
   };
 
+  useEffect(() => {
+    if (userInfo) {
+      navigate("/");
+    }
+  }, [userInfo, navigate]);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    try {
+      const response = await loginUser({
+        email: formData.email,
+        password: formData.password,
+      }).unwrap();
+      dispatch(setCredentials(response));
+      navigate("/");
+    } catch (error) {
+      toast.error(error?.data?.message || error.message);
+    }
   };
   return (
     <div className="max-w-sm mx-auto mt-10 border shadow-sm  rounded-md p-5">
@@ -59,8 +83,13 @@ const LoginUser = () => {
           />
         </div>
 
-        <button className="w-full px-4 py-2 rounded-md text-white hover:bg-gray-600 bg-gray-500 my-1">
-          Login
+        <button
+          disabled={isLoading}
+          className={`w-full px-4 py-2 rounded-md text-white hover:bg-gray-600 bg-gray-500 my-1 ${
+            isLoading ? "cursor-not-allowed opacity-50" : ""
+          }`}
+        >
+          {isLoading ? <BeatLoader color="#000000" size={10} /> : "Login"}
         </button>
       </form>
       <div className="mt-3 text-center">
