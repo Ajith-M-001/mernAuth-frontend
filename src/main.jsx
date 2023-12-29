@@ -11,6 +11,8 @@ import {
 import Homepage from "./pages/Homepage.jsx";
 import RegisterUser from "./pages/RegisterUser.jsx";
 import LoginUser from "./pages/LoginUser.jsx";
+import { store } from "./app/store.jsx";
+import { Provider } from "react-redux";
 
 // You can do this:
 const router = createBrowserRouter(
@@ -24,7 +26,9 @@ const router = createBrowserRouter(
 );
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
+  <Provider store={store}>
+    <React.StrictMode>
+      <RouterProvider router={router} />
+    </React.StrictMode>
+  </Provider>
 );
