@@ -2,10 +2,11 @@ import { useNavigate } from "react-router-dom";
 import { FaRegUser, FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 import { TfiEmail } from "react-icons/tfi";
 import { useEffect, useState } from "react";
-import { useRegisterMutation } from "../app/slices/userApiSlice";
+import { useUpdateMutation } from "../app/slices/userApiSlice";
 import { toast } from "react-toastify";
 import { BeatLoader } from "react-spinners";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setCredentials } from "../app/slices/userSlice";
 
 const UpdateUser = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -15,9 +16,11 @@ const UpdateUser = () => {
     email: "",
     password: "",
     confirmpassword: "",
+    image: "",
   });
-  const [registerUser, { isLoading }] = useRegisterMutation();
+  const [updateUser, { isLoading }] = useUpdateMutation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.user);
 
   useEffect(() => {
@@ -43,14 +46,16 @@ const UpdateUser = () => {
       if (formData.password !== formData.confirmpassword) {
         toast.error("Password didn't match");
       } else {
-        const response = await registerUser({
+        const response = await updateUser({
           name: formData.name,
           email: formData.email,
           password: formData.password,
+          image: formData.image,
         }).unwrap();
-        toast.success(response.message);
+        dispatch(setCredentials(response));
+        toast.success("user Updated Successfully");
         setTimeout(() => {
-          navigate("/login");
+          navigate("/profile");
         }, 6000);
         setFormData({
           name: "",
