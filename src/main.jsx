@@ -13,6 +13,7 @@ import RegisterUser from "./pages/RegisterUser.jsx";
 import LoginUser from "./pages/LoginUser.jsx";
 import { store } from "./app/store.jsx";
 import { Provider } from "react-redux";
+import Profile from "./pages/Profile.jsx";
 
 // You can do this:
 const router = createBrowserRouter(
@@ -21,6 +22,7 @@ const router = createBrowserRouter(
       <Route path="/" index={true} element={<Homepage />} />
       <Route path="register" element={<RegisterUser />} />
       <Route path="login" element={<LoginUser />} />
+      <Route path="profile" element={<Profile />} />
     </Route>
   )
 );
