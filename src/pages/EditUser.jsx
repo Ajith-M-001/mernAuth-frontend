@@ -15,7 +15,7 @@ import {
 } from "firebase/storage";
 import app from "../firebase";
 
-const UpdateUser = () => {
+const EditUser = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -211,4 +211,4 @@ const UpdateUser = () => {
   );
 };
 
-export default UpdateUser;
+export default EditUser;

@@ -15,8 +15,8 @@ import { store } from "./app/store.jsx";
 import { Provider } from "react-redux";
 import Profile from "./pages/Profile.jsx";
 import Private from "./components/Private.jsx";
-import UpdateUser from "./pages/updateUser.jsx";
 import NotFound from "./pages/NotFound.jsx";
+import EditUser from "./pages/EditUser.jsx";
 
 // You can do this:
 const router = createBrowserRouter(
@@ -27,7 +27,7 @@ const router = createBrowserRouter(
       <Route path="login" element={<LoginUser />} />
       <Route element={<Private />}>
         <Route path="profile" element={<Profile />} />
-        <Route path="update" element={<UpdateUser />} />
+        <Route path="update" element={<EditUser />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Route>
