@@ -15,6 +15,7 @@ import { store } from "./app/store.jsx";
 import { Provider } from "react-redux";
 import Profile from "./pages/Profile.jsx";
 import Private from "./components/Private.jsx";
+import UpdateUser from "./pages/updateUser.jsx";
 
 // You can do this:
 const router = createBrowserRouter(
@@ -25,6 +26,7 @@ const router = createBrowserRouter(
       <Route path="login" element={<LoginUser />} />
       <Route element={<Private />}>
         <Route path="profile" element={<Profile />} />
+        <Route path="update" element={<UpdateUser />} />
       </Route>
     </Route>
   )

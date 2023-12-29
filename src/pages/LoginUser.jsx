@@ -85,7 +85,7 @@ const LoginUser = () => {
 
         <button
           disabled={isLoading}
-          className={`w-full px-4 py-2 rounded-md text-white hover:bg-gray-600 bg-gray-500 my-1 ${
+          className={`w-full px-4 py-2 rounded-md text-white hover:bg-gray-800 bg-gray-700 my-1 ${
             isLoading ? "cursor-not-allowed opacity-50" : ""
           }`}
         >

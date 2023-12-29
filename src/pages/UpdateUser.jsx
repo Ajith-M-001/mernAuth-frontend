@@ -1,12 +1,13 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FaRegUser, FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 import { TfiEmail } from "react-icons/tfi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRegisterMutation } from "../app/slices/userApiSlice";
 import { toast } from "react-toastify";
 import { BeatLoader } from "react-spinners";
+import { useSelector } from "react-redux";
 
-const RegisterUser = () => {
+const UpdateUser = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -17,6 +18,11 @@ const RegisterUser = () => {
   });
   const [registerUser, { isLoading }] = useRegisterMutation();
   const navigate = useNavigate();
+  const { userInfo } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    setFormData(userInfo);
+  }, [userInfo]);
 
   const handleshowPassword = () => {
     setShowPassword(!showPassword);
@@ -59,10 +65,15 @@ const RegisterUser = () => {
   };
   return (
     <div className="max-w-sm mx-auto mt-10 border shadow-sm  rounded-md p-5">
-      <h1 className="text-2xl font-bold text-center my-3">
-        create new account
-      </h1>
+      <h1 className="text-2xl font-bold text-center my-3">Update</h1>
       <form onSubmit={handleSubmit}>
+        <div className="flex flex-col justify-center items-center my-4">
+          <img
+            className="h-20 w-20 object-cover rounded-full cursor-pointer"
+            src={userInfo.image}
+            alt="profile pic"
+          />
+        </div>
         <div className="relative">
           <FaRegUser className="absolute text-lg top-1/2 -translate-y-1/2 left-3" />
           <input
@@ -104,7 +115,6 @@ const RegisterUser = () => {
             placeholder="Enter Password"
             onChange={handleChange}
             name="password"
-            value={formData.password}
           />
         </div>
         <div className="relative">
@@ -125,7 +135,6 @@ const RegisterUser = () => {
             placeholder="Confirm Password"
             onChange={handleChange}
             name="confirmpassword"
-            value={formData.confirmpassword}
           />
         </div>
         <button
@@ -134,22 +143,11 @@ const RegisterUser = () => {
             isLoading ? "cursor-not-allowed opacity-50" : ""
           }`}
         >
-          {isLoading ? <BeatLoader color="#000000" size={10} /> : "Register"}
+          {isLoading ? <BeatLoader color="#000000" size={10} /> : "Update"}
         </button>
       </form>
-      <div className="mt-3 text-center">
-        <p>
-          Alreay have an Account ?
-          <Link
-            to={"/login"}
-            className="text-blue-600 ml-3 font-semibold hover:underline"
-          >
-            Login
-          </Link>
-        </p>
-      </div>
     </div>
   );
 };
 
-export default RegisterUser;
+export default UpdateUser;

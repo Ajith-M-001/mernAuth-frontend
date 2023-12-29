@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useLogoutMutation } from "../app/slices/userApiSlice";
 import { clearCredentials } from "../app/slices/userSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const { userInfo } = useSelector((state) => state.user);
@@ -43,7 +43,9 @@ const Profile = () => {
           </p>
         </div>
         <div className="p-4 border mb-10 flex justify-between items-center text-xl text-red-600">
-          <p className="hover:underline cursor-pointer">Update</p>
+          <Link to={"/update"}>
+            <p className="hover:underline cursor-pointer">Update</p>
+          </Link>
           <p className="hover:underline cursor-pointer">Delete</p>
           <p onClick={handleDelete} className="hover:underline cursor-pointer">
             Logout
