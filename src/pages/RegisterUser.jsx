@@ -1,7 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaRegUser, FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 import { TfiEmail } from "react-icons/tfi";
 import { useState } from "react";
+import { useRegisterMutation } from "../app/slices/userApiSlice";
+import { toast } from "react-toastify";
+import { BeatLoader } from "react-spinners";
 
 const RegisterUser = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -12,6 +15,8 @@ const RegisterUser = () => {
     password: "",
     confirmpassword: "",
   });
+  const [registerUser, { isLoading }] = useRegisterMutation();
+  const navigate = useNavigate();
 
   const handleshowPassword = () => {
     setShowPassword(!showPassword);
@@ -26,9 +31,31 @@ const RegisterUser = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    try {
+      if (formData.password !== formData.confirmpassword) {
+        toast.error("Password didn't match");
+      } else {
+        const response = await registerUser({
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+        }).unwrap();
+        toast.success(response.message);
+        setTimeout(() => {
+          navigate("/login");
+        }, 6000);
+        setFormData({
+          name: "",
+          email: "",
+          password: "",
+          confirmpassword: "",
+        });
+      }
+    } catch (error) {
+      toast.error(error?.data?.message || error.message);
+    }
   };
   return (
     <div className="max-w-sm mx-auto mt-10 border shadow-sm  rounded-md p-5">
@@ -44,6 +71,7 @@ const RegisterUser = () => {
             placeholder="Enter Your Name"
             onChange={handleChange}
             name="name"
+            value={formData.name}
           />
         </div>
         <div className="relative">
@@ -54,6 +82,7 @@ const RegisterUser = () => {
             placeholder="Enter Your Email"
             onChange={handleChange}
             name="email"
+            value={formData.email}
           />
         </div>
         <div className="relative">
@@ -75,6 +104,7 @@ const RegisterUser = () => {
             placeholder="Enter Password"
             onChange={handleChange}
             name="password"
+            value={formData.password}
           />
         </div>
         <div className="relative">
@@ -94,11 +124,17 @@ const RegisterUser = () => {
             type={!showConfirmPassword ? "password" : "text"}
             placeholder="Confirm Password"
             onChange={handleChange}
-            name="confirmPassword"
+            name="confirmpassword"
+            value={formData.confirmpassword}
           />
         </div>
-        <button className="w-full px-4 py-2 rounded-md text-white hover:bg-gray-600 bg-gray-500 my-1">
-          Register
+        <button
+          disabled={isLoading}
+          className={`w-full px-4 py-2 rounded-md text-white hover:bg-gray-600 bg-gray-500 my-1 ${
+            isLoading ? "cursor-not-allowed opacity-50" : ""
+          }`}
+        >
+          {isLoading ? <BeatLoader color="#000000" size={10} /> : "Register"}
         </button>
       </form>
       <div className="mt-3 text-center">
