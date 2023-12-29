@@ -1,8 +1,19 @@
 import { Link } from "react-router-dom";
 import { FaRegUser, FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 import { TfiEmail } from "react-icons/tfi";
+import { useState } from "react";
 
 const RegisterUser = () => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const handleChange = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleConfirmChange = () => {
+    setShowConfirmPassword(!showConfirmPassword);
+  };
   return (
     <div className="max-w-sm mx-auto mt-10 border shadow-sm  rounded-md p-5">
       <h1 className="text-2xl font-bold text-center my-3">
@@ -26,18 +37,39 @@ const RegisterUser = () => {
           />
         </div>
         <div className="relative">
-          <FaRegEye className="absolute cursor-pointer text-lg top-1/2 -translate-y-1/2 left-3" />
+          {!showPassword ? (
+            <FaRegEyeSlash
+              onClick={handleChange}
+              className="absolute cursor-pointer text-lg top-1/2 -translate-y-1/2 left-3"
+            />
+          ) : (
+            <FaRegEye
+              onClick={handleChange}
+              className="absolute cursor-pointer text-lg top-1/2 -translate-y-1/2 left-3"
+            />
+          )}
+
           <input
             className="w-full my-1 pl-10 px-4 py-2 rounded-md outline-none border focus-visible:border-gray-600"
-            type="password"
+            type={!showPassword ? "password" : "text"}
             placeholder="Enter Password"
           />
         </div>
         <div className="relative">
-          <FaRegEyeSlash className="absolute cursor-pointer text-lg top-1/2 -translate-y-1/2 left-3" />
+          {!showConfirmPassword ? (
+            <FaRegEyeSlash
+              onClick={handleConfirmChange}
+              className="absolute cursor-pointer text-lg top-1/2 -translate-y-1/2 left-3"
+            />
+          ) : (
+            <FaRegEye
+              onClick={handleConfirmChange}
+              className="absolute cursor-pointer text-lg top-1/2 -translate-y-1/2 left-3"
+            />
+          )}
           <input
             className="w-full pl-10 my-1 px-4 py-2 rounded-md outline-none border focus-visible:border-gray-600"
-            type="password"
+            type={!showConfirmPassword ? "password" : "text"}
             placeholder="Confirm Password"
           />
         </div>
