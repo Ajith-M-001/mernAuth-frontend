@@ -1,19 +1,39 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useLogoutMutation } from "../app/slices/userApiSlice";
+import {
+  useDeleteMutation,
+  useLogoutMutation,
+} from "../app/slices/userApiSlice";
 import { clearCredentials } from "../app/slices/userSlice";
 import { Link, useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const { userInfo } = useSelector((state) => state.user);
   const [logoutUser] = useLogoutMutation();
+  const [deleteUser] = useDeleteMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleDelete = async () => {
+  const handleLogout = async () => {
     try {
       await logoutUser();
       dispatch(clearCredentials());
       navigate("/login");
+    } catch (error) {
+      console.log(`failed to Logout User`);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      const confirm = window.confirm(
+        "Are You Sure You Want To Delete Your Account ?"
+      );
+
+      if (confirm) {
+        await deleteUser();
+        dispatch(clearCredentials());
+        navigate("/login");
+      }
     } catch (error) {
       console.log(`failed to delete User`);
     }
@@ -46,8 +66,10 @@ const Profile = () => {
           <Link to={"/update"}>
             <p className="hover:underline cursor-pointer">Update</p>
           </Link>
-          <p className="hover:underline cursor-pointer">Delete</p>
           <p onClick={handleDelete} className="hover:underline cursor-pointer">
+            Delete
+          </p>
+          <p onClick={handleLogout} className="hover:underline cursor-pointer">
             Logout
           </p>
         </div>

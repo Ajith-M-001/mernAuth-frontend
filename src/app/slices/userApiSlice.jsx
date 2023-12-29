@@ -31,6 +31,12 @@ const userApiSlice = apiSlice.injectEndpoints({
         method: "POST",
       }),
     }),
+    delete: builder.mutation({
+      query: () => ({
+        url: `${USER_URL}/delete`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
@@ -39,6 +45,7 @@ export const {
   useUpdateMutation,
   useLoginMutation,
   useLogoutMutation,
+  useDeleteMutation,
 } = userApiSlice;
 
 export default userApiSlice;
