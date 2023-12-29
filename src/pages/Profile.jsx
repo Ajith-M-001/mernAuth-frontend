@@ -1,7 +1,23 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useLogoutMutation } from "../app/slices/userApiSlice";
+import { clearCredentials } from "../app/slices/userSlice";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const { userInfo } = useSelector((state) => state.user);
+  const [logoutUser] = useLogoutMutation();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleDelete = async () => {
+    try {
+      await logoutUser();
+      dispatch(clearCredentials());
+      navigate("/login");
+    } catch (error) {
+      console.log(`failed to delete User`);
+    }
+  };
   return (
     <>
       <div className="text-green-700 mt-4  text-3xl text-center font-bold">
@@ -29,7 +45,9 @@ const Profile = () => {
         <div className="p-4 border mb-10 flex justify-between items-center text-xl text-red-600">
           <p className="hover:underline cursor-pointer">Update</p>
           <p className="hover:underline cursor-pointer">Delete</p>
-          <p className="hover:underline cursor-pointer">Logout</p>
+          <p onClick={handleDelete} className="hover:underline cursor-pointer">
+            Logout
+          </p>
         </div>
       </div>
     </>

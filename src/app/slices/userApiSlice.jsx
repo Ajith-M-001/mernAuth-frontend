@@ -18,9 +18,16 @@ const userApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    logout: builder.mutation({
+      query: () => ({
+        url: `${USER_URL}/logout`,
+        method: "POST",
+      }),
+    }),
   }),
 });
 
-export const { useRegisterMutation, useLoginMutation } = userApiSlice;
+export const { useRegisterMutation, useLoginMutation, useLogoutMutation } =
+  userApiSlice;
 
 export default userApiSlice;
