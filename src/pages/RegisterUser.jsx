@@ -134,7 +134,7 @@ const RegisterUser = () => {
             isLoading ? "cursor-not-allowed opacity-50" : ""
           }`}
         >
-          {isLoading ? <BeatLoader color="#000000" size={10} /> : "Register"}
+          {isLoading ? <BeatLoader color="#FFFFFF" size={10} /> : "Register"}
         </button>
       </form>
       <div className="mt-3 text-center">

@@ -89,7 +89,7 @@ const LoginUser = () => {
             isLoading ? "cursor-not-allowed opacity-50" : ""
           }`}
         >
-          {isLoading ? <BeatLoader color="#000000" size={10} /> : "Login"}
+          {isLoading ? <BeatLoader color="#FFFFFF" size={10} /> : "Login"}
         </button>
       </form>
       <div className="mt-3 text-center">
