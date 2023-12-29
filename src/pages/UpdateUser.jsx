@@ -54,7 +54,7 @@ const UpdateUser = () => {
         setProgresspercent(progress);
       },
       (error) => {
-        toast.error(error);
+        alert(error);
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
